@@ -9,3 +9,7 @@ body {
     width: 100%;
     background-color: #fff;
 }
+
+.jumbotron-index {
+    text-align: center;
+}
