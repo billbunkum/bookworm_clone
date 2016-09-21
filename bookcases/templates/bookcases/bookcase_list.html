@@ -1,4 +1,41 @@
-{%extends "core/base.html"%}
-{%block content%}
-Boom
-{%endblock content%}
+{% extends "core/base.html" %}
+
+{% block content %}
+    <h2>Bookcases</h2>
+    <div class="panel-group" id="accordion" role="tablist">
+        {% for bookcase in bookcases %}
+            <div class="panel panel-default">
+                <div class="panel-heading" id="heading-{{bookcase.pk}}">
+                    <h4 class="panel-title">
+                        <div class="pull-right">
+                            <span class="badge">
+                                {{bookcase.shelf_count}}
+                                shel{{ bookcase.shelf_count|pluralize:"f,ves"}}
+                            </span>
+                        </div>
+                        <a 
+                            class="collapsed"
+                            href="#collapse-{{bookcase.pk}}"
+                            data-toggle="collapse"
+                            data-parent="#accordion"
+                        >
+                            {{bookcase.name|title}}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-{{bookcase.pk}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% if bookcase.description %}
+                            {{bookcase.description}}
+                        {% else %}
+                            <small><em>This bookcase has no description</em></small>
+                        {% endif %}
+                        <p>
+                            <a href="{{ bookcase.get_absolute_url }}">View Bookcase</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
