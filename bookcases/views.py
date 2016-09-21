@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Count
 
 from .models import Bookcase
 
 def bookcase_list(request):
-    bookcases = Bookcase.objects.all()
+    bookcases = Bookcase.objects.annotate(shelf_count=Count('bookshelf')).all()
 
     context = {
         "bookcases": bookcases,
