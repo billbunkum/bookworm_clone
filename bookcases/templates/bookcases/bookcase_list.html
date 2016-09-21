@@ -27,12 +27,12 @@
                     <div class="panel-body">
                         {% if bookcase.description %}
                             {{bookcase.description}}
-                            <p>
-                                <a href="{{ bookcase.get_absolute_url }}">View Bookcase</a>
-                            </p>
                         {% else %}
                             <small><em>This bookcase has no description</em></small>
                         {% endif %}
+                        <p>
+                            <a href="{{ bookcase.get_absolute_url }}">View Bookcase</a>
+                        </p>
                     </div>
                 </div>
             </div>
