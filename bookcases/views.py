@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Count
 
@@ -13,4 +13,10 @@ def bookcase_list(request):
     return render(request, "bookcases/bookcase_list.html", context)
 
 def bookcase_detail(request, id):
-    return HttpResponse("Bookcase: {}".format(id))
+    bookcase = get_object_or_404(Bookcase, pk=id)
+
+    context = {
+        "bookcase": bookcase,
+    }
+
+    return render(request, "bookcases/bookcase_detail.html", context)
