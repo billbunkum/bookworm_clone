@@ -34,7 +34,7 @@
                 {% for breadcrumb in breadcrumbs %}
                     <li>
                         {% if breadcrumb.1 %}
-                            <a href="{% url 'bookcases:bookcase_list' %}">
+                            <a href="{{breadcrumb.1}}">
                         {% endif %}
                         {{ breadcrumb.0 }}
                         {% if breadcrumb.1 %}
