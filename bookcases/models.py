@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 class Bookcase(models.Model):
     name = models.CharField(max_length=50)
@@ -9,6 +10,10 @@ class Bookcase(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('bookcases:bookcase_detail', args=[self.pk])
+
 
 class Bookshelf(models.Model):
     shelf_label = models.CharField(max_length=50)

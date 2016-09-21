@@ -11,3 +11,6 @@ def bookcase_list(request):
         "bookcases": bookcases,
     }
     return render(request, "bookcases/bookcase_list.html", context)
+
+def bookcase_detail(request, id):
+    return HttpResponse("Bookcase: {}".format(id))
