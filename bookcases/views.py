@@ -39,7 +39,7 @@ def bookshelf_detail(request, id):
     query_set = query_set.select_related('bookcase')
     query_set = query_set.annotate(book_count=Count('book'))
     bookshelf = get_object_or_404(query_set, pk=id)
-    books = bookshelf.book_set.all()
+    books = bookshelf.book_set.prefetch_related('authors').all()
 
     breadcrumbs = (
         ("Bookcases", reverse("bookcases:bookcase_list")),

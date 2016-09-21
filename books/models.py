@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -17,6 +18,10 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("books:book_detail", args=[self.pk])
+
 
 class Author(models.Model):
     name = models.CharField(max_length=200)

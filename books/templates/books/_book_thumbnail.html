@@ -1,5 +1,5 @@
 <div class="thumbnail book-thumbnail">
-    <a href="#">
+    <a href="{{book.get_absolute_url}}">
         <img class="img-responsive book-cover" src="http://covers.openlibrary.org/b/isbn/9780385533225-M.jpg" alt="Book Cover">
     </a>
     <div class="caption">
@@ -7,5 +7,8 @@
             {{book.title}}
         </h4>
         <em>{{book.get_authors}}</em>
+        <p>
+            <a href="{{book.get_absolute_url}}">View Book</a>
+        </p>
     </div>
 </div>
