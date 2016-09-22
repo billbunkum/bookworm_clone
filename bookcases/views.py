@@ -37,6 +37,10 @@ def bookcase_detail(request, id):
     return render(request, "bookcases/bookcase_detail.html", context)
 
 def bookcase_new(request):
+    breadcrumbs = (
+        ("Bookcases", reverse("bookcases:bookcase_list")),
+    )
+
     if request.method == "POST":
         form = BookcaseForm(request.POST)
         if form.is_valid():
@@ -48,11 +52,18 @@ def bookcase_new(request):
 
     context = {
         "form": form,
+        "breadcrumbs": breadcrumbs,
     }
     return render(request, "bookcases/bookcase_edit.html", context)
 
 def bookcase_edit(request, id):
     bookcase = get_object_or_404(Bookcase, pk=id)
+
+    breadcrumbs = (
+        ("Bookcases", reverse("bookcases:bookcase_list")),
+        (bookcase.name, reverse("bookcases:bookcase_detail", args=[bookcase.pk]))
+    )
+
     if request.method == "POST":
         form = BookcaseForm(request.POST, instance=bookcase)
         if form.is_valid():
@@ -65,6 +76,7 @@ def bookcase_edit(request, id):
     context = {
         "form": form,
         "bookcase": bookcase,
+        "breadcrumbs": breadcrumbs,
     }
     return render(request, "bookcases/bookcase_edit.html", context)
 
