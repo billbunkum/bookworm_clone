@@ -28,6 +28,13 @@
         </nav>
     </header>
     <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         {% if breadcrumbs %}
             <ol class="breadcrumb">
                 <li><a href="{% url 'core:index' %}">Home</a></li>

@@ -2,9 +2,17 @@
 
 {% block content %}
     <h2>
+        <small class="pull-right">
+            <a href="{% url 'bookcases:bookcase_edit' bookcase.pk %}">edit</a>
+        </small>
         {{bookcase.name}}
+        <hr>
     </h2>
-    
+    {% if bookcase.description %}
+        <p>
+            {{bookcase.description}}
+        </p>
+    {% endif %}
     <ul class="list-group">
         {% for bookshelf in bookshelves %}
             <li class="list-group-item">

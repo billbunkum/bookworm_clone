@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 from .models import Bookcase, Bookshelf
 from .forms import BookcaseForm
@@ -40,12 +41,30 @@ def bookcase_new(request):
         form = BookcaseForm(request.POST)
         if form.is_valid():
             bookcase = form.save()
+            messages.success(request, "Bookcase created!")
             return redirect("bookcases:bookcase_detail", id=bookcase.pk)
     else:
         form = BookcaseForm()
 
     context = {
         "form": form,
+    }
+    return render(request, "bookcases/bookcase_edit.html", context)
+
+def bookcase_edit(request, id):
+    bookcase = get_object_or_404(Bookcase, pk=id)
+    if request.method == "POST":
+        form = BookcaseForm(request.POST, instance=bookcase)
+        if form.is_valid():
+            bookcase = form.save()
+            messages.success(request, "{} has been updated!".format(bookcase.name))
+            return redirect("bookcases:bookcase_detail", id=bookcase.pk)
+    else:
+        form = BookcaseForm(instance=bookcase)
+
+    context = {
+        "form": form,
+        "bookcase": bookcase,
     }
     return render(request, "bookcases/bookcase_edit.html", context)
 
