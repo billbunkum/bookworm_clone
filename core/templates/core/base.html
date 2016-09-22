@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {% block title %}
             Bookworm
@@ -17,7 +18,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
             <div class="navbar-header">
                 <a href="{% url 'core:index' %}" class="navbar-brand">
@@ -28,32 +29,34 @@
         </nav>
     </header>
     <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% if breadcrumbs %}
-            <ol class="breadcrumb">
-                <li><a href="{% url 'core:index' %}">Home</a></li>
-                {% for breadcrumb in breadcrumbs %}
-                    <li>
-                        {% if breadcrumb.1 %}
-                            <a href="{{breadcrumb.1}}">
-                        {% endif %}
-                        {{ breadcrumb.0 }}
-                        {% if breadcrumb.1 %}
-                            </a>
-                        {% endif %}
-                    </li>
+        <div class="{% block content_classes %}main-content{% endblock content_classes %}">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
                 {% endfor %}
-            </ol>
-        {% endif %}
-        {% block content %}
+            {% endif %}
+            {% if breadcrumbs %}
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'core:index' %}">Home</a></li>
+                    {% for breadcrumb in breadcrumbs %}
+                        <li>
+                            {% if breadcrumb.1 %}
+                                <a href="{{breadcrumb.1}}">
+                            {% endif %}
+                            {{ breadcrumb.0 }}
+                            {% if breadcrumb.1 %}
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            {% block content %}
 
-        {% endblock %}
+            {% endblock %}
+        </div>
     </div>
     <footer class="page-footer">
         <hr>
