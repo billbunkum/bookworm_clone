@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count
 from django.core.urlresolvers import reverse
 
 from .models import Bookcase, Bookshelf
+from .forms import BookcaseForm
 
 def bookcase_list(request):
     bookcases = Bookcase.objects.annotate(shelf_count=Count('bookshelf')).all()
@@ -33,6 +34,21 @@ def bookcase_detail(request, id):
     }
 
     return render(request, "bookcases/bookcase_detail.html", context)
+
+def bookcase_new(request):
+    if request.method == "POST":
+        form = BookcaseForm(request.POST)
+        if form.is_valid():
+            bookcase = form.save()
+            return redirect("bookcases:bookcase_detail", id=bookcase.pk)
+    else:
+        form = BookcaseForm()
+
+    context = {
+        "form": form,
+    }
+    return render(request, "bookcases/bookcase_edit.html", context)
+
 
 def bookshelf_detail(request, id):
     query_set = Bookshelf.objects
