@@ -10,24 +10,9 @@
     {% endif %}
     <form action="" method="POST">
         {% csrf_token %}
-        <div 
-            {% if form.shelf_label.errors %}
-                class="form-group has-error"
-            {% else %}
-                class="form-group"
-            {% endif %}
-        >
-            {{ form.shelf_label.label_tag }}
-            {{ form.shelf_label }}
-
-            {% if form.shelf_label.errors %}
-                <span class="help-block">
-                    {% for error in form.shelf_label.errors %}
-                        {{error}}
-                    {% endfor %}
-                </span>
-            {% endif %}
-        </div>
+        {% for field in form %}
+            {% include "core/_form_input.html" %}
+        {% endfor %}
         <button type="submit" class="btn btn-primary btn-block btn-lg">
             Save
         </button>
