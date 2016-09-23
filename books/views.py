@@ -53,15 +53,21 @@ def book_detail(request, id):
     return render(request, "books/book_detail.html", context)
 
 def book_new(request, bookshelf=None):
+    form_kwargs = {}
+    if bookshelf:
+        form_kwargs = {
+            "initial": {"bookshelf": bookshelf}
+        }
+
     if request.method == "POST":
-        form = BookForm(request.POST)
+        form = BookForm(request.POST, **form_kwargs)
 
         if form.is_valid():
             book = form.save()
             messages.success(request, "Book Saved!")
             return redirect("books:book_detail", id=book.pk)
     else:
-        form = BookForm()
+        form = BookForm(**form_kwargs)
 
     context = {
         "form": form,
@@ -69,7 +75,7 @@ def book_new(request, bookshelf=None):
 
     return render(request, "books/book_edit.html", context)
 
-def book_edit(request, id, bookshelf=None):
+def book_edit(request, id):
     book = get_object_or_404(Book, pk=id)
 
     if request.method == "POST":

@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from .models import Bookcase, Bookshelf
 from .forms import BookcaseForm, BookshelfForm
 
+from books.views import book_new
+
 def bookcase_list(request):
     bookcases = Bookcase.objects.annotate(shelf_count=Count('bookshelf')).all()
 
@@ -153,3 +155,7 @@ def bookshelf_edit(request, id):
         "breadcrumbs": breadcrumbs,
     }
     return render(request, "bookcases/bookshelf_edit.html", context)
+
+def bookshelf_book_new(request, id):
+    bookshelf = get_object_or_404(Bookshelf, pk=id)
+    return book_new(request, bookshelf)
