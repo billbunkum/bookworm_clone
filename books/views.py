@@ -68,3 +68,23 @@ def book_new(request, bookshelf=None):
     }
 
     return render(request, "books/book_edit.html", context)
+
+def book_edit(request, id, bookshelf=None):
+    book = get_object_or_404(Book, pk=id)
+
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+
+        if form.is_valid():
+            book = form.save()
+            messages.success(request, "Book Saved!")
+            return redirect("books:book_detail", id=book.pk)
+    else:
+        form = BookForm(instance=book)
+
+    context = {
+        "form": form,
+        "book": book,
+    }
+
+    return render(request, "books/book_edit.html", context)

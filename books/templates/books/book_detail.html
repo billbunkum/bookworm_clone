@@ -6,7 +6,12 @@
             <img class="img-responsive book-cover" src="http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg" alt="Book Cover">
         </div>
         <div class="col-md-8">
-            <h2>{{book.title}}</h2>
+            <h2>
+                <div class="pull-right">
+                    <a href="{% url 'books:book_edit' book.pk %}"><i class="fa fa-pencil-square"></i></a>
+                </div>
+                {{book.title}}
+            </h2>
             <p><small><em>{{book.get_authors}}</em></small></p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint, soluta! Voluptatibus magnam laboriosam excepturi eligendi sit cum veritatis atque, praesentium expedita reiciendis vero, enim, velit deserunt nihil consectetur ullam culpa.
         </div>
