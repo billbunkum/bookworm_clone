@@ -1,7 +1,32 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
-from .models import Book
+from .models import Book, Author
+
+def book_list(request):
+    query_set = Book.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        authors = Author.objects.filter(name__icontains=query)
+        query_set = query_set.filter(
+            Q(title__icontains=query) |
+            Q(authors__in=authors)
+        )
+        query_set = query_set.distinct()
+
+    books = query_set
+
+    breadcrumbs = (
+        ('Books', ),
+    )
+
+    context = {
+        "books": books,
+        "breadcrumbs": breadcrumbs,
+    }
+    return render(request, "books/book_list.html", context)
 
 def book_detail(request, id):
     book = get_object_or_404(Book, pk=id)

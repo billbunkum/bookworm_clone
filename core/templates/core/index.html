@@ -4,15 +4,15 @@
     {{block.super}} index-content
 {% endblock content_classes %}
 {% block content %}
-    <form action="" style="margin-bottom: 24px;">
-        <input type="text" class="form-control input-lg" style="text-align:center;" placeholder="Find a book">
+    <form action="{% url 'books:book_list' %}">
+        <input type="text" class="form-control input-lg" placeholder="Find a book" name="q">
     </form>
-    <ul class="list-group" style="text-align: center">
+    <ul class="list-group">
         <li class="list-group-item">
             <a href="{% url 'bookcases:bookcase_list' %}">Browse Bookcases</a>
         </li>
         <li class="list-group-item">
-            <a href="{% url 'bookcases:bookcase_list' %}">Browse Books</a>
+            <a href="{% url 'books:book_list' %}">Browse Books</a>
         </li>
     </ul>
 {% endblock content %}
