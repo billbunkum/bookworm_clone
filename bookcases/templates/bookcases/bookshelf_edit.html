@@ -1,0 +1,35 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    {% if bookshelf %}
+        <h2>
+            Edit: {{bookshelf.shelf_label}}
+        </h2>
+    {% else %}
+        <h2>New Bookshelf</h2>
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div 
+            {% if form.shelf_label.errors %}
+                class="form-group has-error"
+            {% else %}
+                class="form-group"
+            {% endif %}
+        >
+            {{ form.shelf_label.label_tag }}
+            {{ form.shelf_label }}
+
+            {% if form.shelf_label.errors %}
+                <span class="help-block">
+                    {% for error in form.shelf_label.errors %}
+                        {{error}}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+            Save
+        </button>
+    </form>
+{% endblock content %}
