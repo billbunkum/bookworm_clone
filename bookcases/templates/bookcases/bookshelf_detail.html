@@ -2,6 +2,9 @@
 
 {% block content %}
     <h2>
+        <span class="pull-right">
+            <a href="{% url 'bookcases:bookshelf_edit' bookshelf.pk %}"><i class="fa fa-pencil-square"></i></a>
+        </span>
         {{bookshelf.shelf_label}}
     </h2>
     <p>

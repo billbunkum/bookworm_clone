@@ -28,4 +28,11 @@
             </li>
         {% endfor %}
     </ul>
+    <a 
+        href="{% url 'bookcases:bookshelf_new' bookcase.pk %}"
+        class="btn btn-primary btn-block btn-lg"
+    >
+        Add a Bookshelf
+    </a>
+
 {% endblock content %}

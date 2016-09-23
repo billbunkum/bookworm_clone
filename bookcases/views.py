@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Count
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.http import HttpResponse
 
 from .models import Bookcase, Bookshelf
-from .forms import BookcaseForm
+from .forms import BookcaseForm, BookshelfForm
 
 def bookcase_list(request):
     bookcases = Bookcase.objects.annotate(shelf_count=Count('bookshelf')).all()
@@ -101,3 +102,54 @@ def bookshelf_detail(request, id):
     }
 
     return render(request, "bookcases/bookshelf_detail.html", context)
+
+def bookshelf_new(request, bookcase_id):
+    bookcase = get_object_or_404(Bookcase, pk=bookcase_id)
+
+    breadcrumbs = (
+        ("Bookcases", reverse("bookcases:bookcase_list")),
+        (bookcase.name, reverse("bookcases:bookcase_detail", args=[bookcase.pk])),
+    )
+
+    if request.method == "POST":
+        form = BookshelfForm(request.POST)
+        if form.is_valid():
+            bookshelf = form.save(commit=False)
+            bookshelf.bookcase = bookcase
+            bookshelf.save()
+
+            messages.success(request, "Bookshelf created!")
+            return redirect("bookcases:bookshelf_detail", id=bookshelf.pk)
+    else:
+        form = BookshelfForm()
+
+    context = {
+        "form": form,
+        "breadcrumbs": breadcrumbs,
+    }
+    return render(request, "bookcases/bookshelf_edit.html", context)
+
+def bookshelf_edit(request, id):
+    bookshelf = get_object_or_404(Bookshelf, pk=id)
+    bookcase = bookshelf.bookcase
+    breadcrumbs = (
+        ("Bookcases", reverse("bookcases:bookcase_list")),
+        (bookcase.name, reverse("bookcases:bookcase_detail", args=[bookcase.pk])),
+        (bookshelf.shelf_label, reverse("bookcases:bookshelf_detail", args=[bookshelf.pk])),
+    )
+
+    if request.method == "POST":
+        form = BookshelfForm(request.POST, instance=bookshelf)
+        if form.is_valid():
+            bookshelf = form.save()
+
+            messages.success(request, "Bookshelf updated!")
+            return redirect("bookcases:bookshelf_detail", id=bookshelf.pk)
+    else:
+        form = BookshelfForm(instance=bookshelf)
+
+    context = {
+        "form": form,
+        "breadcrumbs": breadcrumbs,
+    }
+    return render(request, "bookcases/bookshelf_edit.html", context)
