@@ -1,8 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.db.models import Q
+from django.contrib import messages
+
 
 from .models import Book, Author
+from .forms import BookForm
 
 def book_list(request):
     query_set = Book.objects.all()
@@ -48,3 +51,20 @@ def book_detail(request, id):
     }
 
     return render(request, "books/book_detail.html", context)
+
+def book_new(request, bookshelf=None):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            book = form.save()
+            messages.success(request, "Book Saved!")
+            return redirect("books:book_detail", id=book.pk)
+    else:
+        form = BookForm()
+
+    context = {
+        "form": form,
+    }
+
+    return render(request, "books/book_edit.html", context)

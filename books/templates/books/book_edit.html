@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    {% if book %}
+        <h2>
+            Edit: {{book.title}}
+        </h2>
+    {% else %}
+        <h2>New Book</h2>
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+            {% include "core/_form_input.html" with field=field %}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+            Save
+        </button>
+    </form>
+{% endblock content %}
