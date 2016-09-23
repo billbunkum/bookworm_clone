@@ -25,6 +25,10 @@
                     <i class="fa fa-book" aria-hidden="true"></i> Bookworm
                 </a>
             </div>
+            <form class="navbar-form navbar-right" action="{% url 'books:book_list' %}">
+                <input type="text" class="form-control" placeholder="Find a book" name="q">
+                <button type="submit" class="btn btn-info">Submit</button>
+            </form>
           </div>
         </nav>
     </header>
