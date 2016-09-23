@@ -26,6 +26,15 @@ body{
 .index-content {
         margin-top: 40vh;
         min-height: auto;
+        text-align: center;
+}
+
+.index-content form {
+    margin-bottom: 24px;
+}
+
+.index-content input {
+    text-align: center;
 }
 
 .book-thumbnail {
