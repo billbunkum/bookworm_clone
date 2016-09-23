@@ -33,7 +33,6 @@ def book_list(request):
 
 def book_detail(request, id):
     book = get_object_or_404(Book, pk=id)
-    breadcrumbs = None
 
     if book.bookshelf:
         breadcrumbs = (
@@ -42,6 +41,11 @@ def book_detail(request, id):
                 reverse("bookcases:bookcase_detail", args=[book.bookshelf.bookcase.pk])),
             (book.bookshelf.shelf_label,
                 reverse("bookcases:bookshelf_detail", args=[book.bookshelf.pk])),
+            (book.title, ),
+        )
+    else:
+        breadcrumbs = (
+            ("Books", reverse("books:book_list")),
             (book.title, ),
         )
 
@@ -54,10 +58,23 @@ def book_detail(request, id):
 
 def book_new(request, bookshelf=None):
     form_kwargs = {}
+
     if bookshelf:
         form_kwargs = {
             "initial": {"bookshelf": bookshelf}
         }
+
+        breadcrumbs = (
+            ("Bookcases", reverse("bookcases:bookcase_list")),
+            (bookshelf.bookcase.name,
+                reverse("bookcases:bookcase_detail", args=[bookshelf.bookcase.pk])),
+            (bookshelf.shelf_label,
+                reverse("bookcases:bookshelf_detail", args=[bookshelf.pk])),
+        )
+    else:
+        breadcrumbs = (
+            ("Books", reverse("books:book_list")),
+        )
 
     if request.method == "POST":
         form = BookForm(request.POST, **form_kwargs)
@@ -71,12 +88,28 @@ def book_new(request, bookshelf=None):
 
     context = {
         "form": form,
+        "breadcrumbs": breadcrumbs,
     }
 
     return render(request, "books/book_edit.html", context)
 
 def book_edit(request, id):
     book = get_object_or_404(Book, pk=id)
+
+    if book.bookshelf:
+        breadcrumbs = (
+            ("Bookcases", reverse("bookcases:bookcase_list")),
+            (book.bookshelf.bookcase.name,
+                reverse("bookcases:bookcase_detail", args=[book.bookshelf.bookcase.pk])),
+            (book.bookshelf.shelf_label,
+                reverse("bookcases:bookshelf_detail", args=[book.bookshelf.pk])),
+            (book.title, reverse("books:book_detail", args=[book.pk]))
+        )
+    else:
+        breadcrumbs = (
+            ("Books", reverse("books:book_list")),
+            (book.title, reverse("books:book_detail", args=[book.pk]))
+        )
 
     if request.method == "POST":
         form = BookForm(request.POST, instance=book)
@@ -91,6 +124,7 @@ def book_edit(request, id):
     context = {
         "form": form,
         "book": book,
+        "breadcrumbs": breadcrumbs,
     }
 
     return render(request, "books/book_edit.html", context)
