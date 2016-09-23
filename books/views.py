@@ -1,7 +1,21 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 
 from .models import Book
+
+def book_list(request):
+    books = Book.objects.all()
+
+    breadcrumbs = (
+        ('Books', ),
+    )
+
+    context = {
+        "books": books,
+        "breadcrumbs": breadcrumbs,
+    }
+    return render(request, "books/book_list.html", context)
 
 def book_detail(request, id):
     book = get_object_or_404(Book, pk=id)

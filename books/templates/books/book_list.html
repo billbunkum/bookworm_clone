@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+    <h2>
+        Books
+        <hr>
+    </h2>
+    <div class="row">
+        {% for book in books %}
+            <div class="col-md-4">
+                {% include "books/_book_thumbnail.html" %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
