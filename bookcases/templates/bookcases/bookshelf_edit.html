@@ -1,12 +1,12 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-    {% if bookcase %}
+    {% if bookshelf %}
         <h2>
-            Edit: {{bookcase.name}}
+            Edit: {{bookshelf.shelf_label}}
         </h2>
     {% else %}
-        <h2>New Bookcase</h2>
+        <h2>New Bookshelf</h2>
     {% endif %}
     <form action="" method="POST">
         {% csrf_token %}

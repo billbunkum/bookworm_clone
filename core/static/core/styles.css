@@ -1,16 +1,39 @@
 body{
     padding-top: 70px;
     padding-bottom: 70px;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/7b/Bkwm.jpeg");
+    background-repeat: no-repeat;
 }
 
 .page-footer {
     position: fixed;
     bottom: 0;
-    background-color: #fff;
+    background-color: #eee;
     width: 100%;
 }
+.page-footer hr {
+    margin-top: 0;
+    border-color: #aaa;
+}
 
-.jumbotron-index {
+.main-content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    min-height: 80vh;
+    border-radius: 2px;
+}
+.index-content {
+        margin-top: 40vh;
+        min-height: auto;
+        text-align: center;
+}
+
+.index-content form {
+    margin-bottom: 24px;
+}
+
+.index-content input {
     text-align: center;
 }
 

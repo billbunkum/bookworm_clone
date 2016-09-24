@@ -2,9 +2,9 @@
 
 {% block content %}
     <h2>
-        <small class="pull-right">
-            <a href="{% url 'bookcases:bookcase_edit' bookcase.pk %}">edit</a>
-        </small>
+        <span class="pull-right">
+            <a href="{% url 'bookcases:bookcase_edit' bookcase.pk %}"><i class="fa fa-pencil-square"></i></a>
+        </span>
         {{bookcase.name}}
         <hr>
     </h2>
@@ -28,4 +28,11 @@
             </li>
         {% endfor %}
     </ul>
+    <a 
+        href="{% url 'bookcases:bookshelf_new' bookcase.pk %}"
+        class="btn btn-primary btn-block btn-lg"
+    >
+        Add a Bookshelf
+    </a>
+
 {% endblock content %}

@@ -1,14 +1,18 @@
 {% extends "core/base.html" %}
 
+{% block content_classes %}
+    {{block.super}} index-content
+{% endblock content_classes %}
 {% block content %}
-    <div class="jumbotron jumbotron-index">
-        <h1>
-            Bookworm
-        </h1>
-    </div>
+    <form action="{% url 'books:book_list' %}">
+        <input type="text" class="form-control input-lg" placeholder="Find a book" name="q">
+    </form>
     <ul class="list-group">
         <li class="list-group-item">
-            <a href="{% url 'bookcases:bookcase_list' %}">View Bookcases</a>
+            <a href="{% url 'bookcases:bookcase_list' %}">Browse Bookcases</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{% url 'books:book_list' %}">Browse Books</a>
         </li>
     </ul>
 {% endblock content %}

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {% block title %}
             Bookworm
@@ -12,48 +13,62 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <script src="https://use.fontawesome.com/a04d9e4c1c.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'core/styles.css' %}" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top">
           <div class="container">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-header" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a href="{% url 'core:index' %}" class="navbar-brand">
-                    Bookworm
+                    <i class="fa fa-book" aria-hidden="true"></i> Bookworm
                 </a>
+            </div>
+            <div class="collapse navbar-collapse" id="nav-header">
+                <form class="navbar-form navbar-right" action="{% url 'books:book_list' %}">
+                    <input type="text" class="form-control" placeholder="Find a book" name="q">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                </form>
             </div>
           </div>
         </nav>
     </header>
     <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% if breadcrumbs %}
-            <ol class="breadcrumb">
-                <li><a href="{% url 'core:index' %}">Home</a></li>
-                {% for breadcrumb in breadcrumbs %}
-                    <li>
-                        {% if breadcrumb.1 %}
-                            <a href="{{breadcrumb.1}}">
-                        {% endif %}
-                        {{ breadcrumb.0 }}
-                        {% if breadcrumb.1 %}
-                            </a>
-                        {% endif %}
-                    </li>
+        <div class="{% block content_classes %}main-content{% endblock content_classes %}">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
                 {% endfor %}
-            </ol>
-        {% endif %}
-        {% block content %}
+            {% endif %}
+            {% if breadcrumbs %}
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'core:index' %}">Home</a></li>
+                    {% for breadcrumb in breadcrumbs %}
+                        <li>
+                            {% if breadcrumb.1 %}
+                                <a href="{{breadcrumb.1}}">
+                            {% endif %}
+                            {{ breadcrumb.0 }}
+                            {% if breadcrumb.1 %}
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            {% block content %}
 
-        {% endblock %}
+            {% endblock %}
+        </div>
     </div>
     <footer class="page-footer">
         <hr>

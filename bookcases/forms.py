@@ -1,20 +1,16 @@
 from django import forms
 
-from .models import Bookcase
+from .models import Bookcase, Bookshelf
+from core.forms import BootstrapFormMixin
 
-class BookcaseForm(forms.ModelForm):
+class BookcaseForm(BootstrapFormMixin, forms.ModelForm):
 
     class Meta:
         model = Bookcase
         fields = ('name', 'description', )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class BookshelfForm(BootstrapFormMixin, forms.ModelForm):
 
-        self.fields["name"].widget.attrs.update({
-            "class": "form-control"
-        })
-
-        self.fields["description"].widget.attrs.update({
-            "class": "form-control"
-        })
+    class Meta:
+        model = Bookshelf
+        fields = ('shelf_label', )
