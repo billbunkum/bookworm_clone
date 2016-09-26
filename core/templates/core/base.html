@@ -32,6 +32,14 @@
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="nav-header">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'register' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
                 <form class="navbar-form navbar-right" action="{% url 'books:book_list' %}">
                     <input type="text" class="form-control" placeholder="Find a book" name="q">
                     <button type="submit" class="btn btn-info">Submit</button>

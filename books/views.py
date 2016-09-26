@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 from .models import Book, Author
@@ -56,6 +57,7 @@ def book_detail(request, id):
 
     return render(request, "books/book_detail.html", context)
 
+@login_required
 def book_new(request, bookshelf=None):
     form_kwargs = {}
 
@@ -93,6 +95,7 @@ def book_new(request, bookshelf=None):
 
     return render(request, "books/book_edit.html", context)
 
+@login_required
 def book_edit(request, id):
     book = get_object_or_404(Book, pk=id)
 
